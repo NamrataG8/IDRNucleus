@@ -1,0 +1,23 @@
+			[%- listType = Item.Type.match('^std\:\:(list|vector|array)\<((\w+\:{0,2}\w+)((\*|\&))?)(\,\d+)?\>$') -%]
+			[%- IF listType %]
+			[%- Param.Name = Item.Name %][%- Param.Type = listType.1 %][%- Param.Properties.accessor = "mutable" %]
+	        	[%- IF listType.0 =='list' %]
+[% INCLUDE templates/ctxtManagerTmpls/listAPIHeader.tt %]
+	        	[%- ELSIF listType.0 =='vector'%]
+[% INCLUDE templates/ctxtManagerTmpls/vectorAPIHeader.tt %]
+	        	[%- ELSIF listType.0 == 'array'%]
+[% INCLUDE templates/ctxtManagerTmpls/arrayAPIHeader.tt %]	
+	        	[%-END%]
+			[%- ELSE %]
+			/****************************************
+			* set[% Item.Name %]
+			*    set [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			void set[% Item.Name %]( [% Item.Name %]* [% Item.Name %]p ) ;
+			
+			/****************************************
+			* get[% Item.Name %]
+			*    get [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			[% Item.Name %]* get[% Item.Name %]();
+			[%- END %]

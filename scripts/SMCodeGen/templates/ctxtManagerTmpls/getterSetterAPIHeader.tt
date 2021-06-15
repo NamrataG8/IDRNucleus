@@ -1,0 +1,65 @@
+			
+			/****************************************
+			* set[% String.new(Item.Name).capital.text() %]
+			*    set [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			void set[% String.new(Item.Name).capital.text() %]([% ARG(Item,"set") %]);
+			
+			/****************************************
+			* get[% String.new(Item.Name).capital.text() %]
+			*    get [% Item.Name %] from [% dataBlockClassName %]
+			****************************************/
+			[%- getterTypeStr = ARG(Item,"get") %] [%- functionModifier = "const;" %]
+			[%- IF !getterTypeStr.grep('const').size && getterTypeStr.grep('&').size == 1 %][%- functionModifier = ";" %][%- END %]
+			[% getterTypeStr %] get[% String.new(Item.Name).capital.text() %]()[% functionModifier %]
+			[%- IF Item.defined('Properties') == 1 %]
+          		[%-IF Item.Properties.metrics == "counter" %]
+		
+			/****************************************
+			* increment[% String.new(Item.Name).capital.text() %]
+			*    increment [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			void increment[% String.new(Item.Name).capital.text() %]();
+          		[%-ELSIF Item.Properties.metrics == "gauge" %]
+            
+			/****************************************
+			* increment[% String.new(Item.Name).capital.text() %]
+			*    increment [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			void increment[% String.new(Item.Name).capital.text() %]();
+            
+			/****************************************
+			* decrement[% String.new(Item.Name).capital.text() %]
+			*    decrement [% Item.Name %] to [% dataBlockClassName %]
+			****************************************/
+			void decrement[% String.new(Item.Name).capital.text() %]();
+         	 	[%- END -%]
+         	[%-IF Item.Properties.BitFlag =='true' %]
+            
+			/****************************************
+			* set[% String.new(Item.Name).capital.text() %]Bit
+			*    set [% Item.Name %]Bit to [% dataBlockClassName %]
+			****************************************/
+			void set[% String.new(Item.Name).capital.text() %]Bit([% Item.Type %] [% Item.Name %]Bit_i);
+            
+			/****************************************
+			* clear[% String.new(Item.Name).capital.text() %]Bit
+			*    clear [% Item.Name %]Bit to [% dataBlockClassName %]
+			****************************************/
+			void clear[% String.new(Item.Name).capital.text() %]Bit([% Item.Type %] [% Item.Name %]Bit_i);
+            
+			/****************************************
+			* check[% String.new(Item.Name).capital.text() %]Bit
+			*    check [% Item.Name %]Bit to [% dataBlockClassName %]
+			****************************************/
+			bool check[% String.new(Item.Name).capital.text() %]Bit([% Item.Type %] [% Item.Name %]Bit_i);
+         	[%- END -%]
+                [%- END %]
+			[%-UNLESS Item.Cardinality=='' %]
+
+			/****************************************
+			* get[% String.new(Item.Name).capital.text() %]Len
+			*    get [% Item.Name %]Len from [% dataBlockClassName %]
+			****************************************/
+			uint16_t get[% String.new(Item.Name).capital.text() %]Len()const;	
+		    [%- END %]			

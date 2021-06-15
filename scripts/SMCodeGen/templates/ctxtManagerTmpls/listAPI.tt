@@ -1,0 +1,84 @@
+	/******************************************************************************
+	* add [% Item.Name %]
+	******************************************************************************/
+	[%- Param.Name = Item.Name %][%- Param.Type = listType.1 %][%- Param.Properties.accessor = "mutable" %]
+	[%-IF Item.Cardinality!='' %]
+	bool [% dataBlockClassName %]::add[% String.new(Item.Name).capital.text() %]([% ARG(Param, "set")%])
+	{
+	        if( [% Item.Name %]_m.size() <= [% Item.Cardinality %] )
+    		        [% Item.Name %]_m.push_back([% Item.Name %]_i);
+    		else
+    		        return false;
+    		return true;
+	}
+	[%- ELSE %]
+	void [% dataBlockClassName %]::add[% String.new(Item.Name).capital.text() %]([% ARG(Param, "set")%])
+	{
+    		[% Item.Name %]_m.push_back([% Item.Name %]_i);
+	}
+	[%- END %]
+	
+	/******************************************************************************
+	* remove [% Item.Name %]
+	******************************************************************************/
+	void [% dataBlockClassName %]::remove[% String.new(Item.Name).capital.text() %]([% ARG(Param, "set")%])
+	{
+    	    	[% Item.Name %]_m.remove([% Item.Name %]_i);
+	}
+		
+	/******************************************************************************
+	* returns [% Item.Name %]List
+	******************************************************************************/
+	[% Item.Type %]& [% dataBlockClassName %]::get[% String.new(Item.Name).capital.text() %]Container()
+	{
+		return [% Item.Name %]_m;
+	}
+	[%-IF Item.defined('Properties') == 1 && Item.Properties.defined('FindBy') %]
+	[%-IF primitiveTypes.grep("$listType.2").size != 0 || listType.3=='*'%]
+	[%- FOREACH id = Item.Properties.FindBy %]
+	
+	/******************************************************************************
+	* find [% Item.Name %] By[% String.new(id.Name).capital.text() %]
+	******************************************************************************/
+	[% listType.1 %] [% dataBlockClassName %]::find[% String.new(Item.Name).capital.text() %]By[% String.new(id.Name).capital.text() %]( [% ARG(id,"set")%])
+	{
+		for( auto &it : [% Item.Name %]_m)
+    		{
+        		if(it[% access_op %]get[% String.new(id.Name).capital.text() %]() == [% id.Name %]_i)
+        		{
+            			return it;
+        		}
+    		}
+    		return [%-IF listType.3=='*'-%]NULL[%- ELSE -%]0[%- END -%];
+	}
+	[%- END %]
+	[%- ELSE %]
+	[%- FOREACH id = Item.Properties.FindBy %]
+	
+	/******************************************************************************
+	* find [% Item.Name %] By[% String.new(id.Name).capital.text() %]
+	******************************************************************************/
+	bool [% dataBlockClassName %]::find[% String.new(Item.Name).capital.text() %]By[% String.new(id.Name).capital.text() %]( [% ARG(id,"set")%], [% ARG(Param, "set")%])
+	{
+		for( auto &it : [% Item.Name %]_m)
+    		{
+        		if(it[% access_op %]get[% String.new(id.Name).capital.text() %]() == [% id.Name %]_i)
+        		{
+            			[% Item.Name %]_i = it;
+            			return true;
+        		}
+    		}
+    		return false;
+	}
+	[%- END %]
+	[%- END %]
+	[%- ELSE %]
+
+	/******************************************************************************
+	* find [% Item.Name %]
+	******************************************************************************/
+	[% Item.Type %]::iterator [% dataBlockClassName %]::find[% String.new(Item.Name).capital.text() %]([% ARG(Param, "set")%])
+	{
+	    return std::find(std::begin([% Item.Name %]_m), std::end([% Item.Name %]_m), [% Item.Name %]_i);
+	}
+	[% END %]
