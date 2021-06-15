@@ -133,7 +133,8 @@ message ProcedureStatsRespBuf
 	uint32 num_of_ded_act_complete = 74;
 	uint32 num_of_create_bearer_proc_complete = 75;
 	uint32 num_of_act_ded_br_ctxt_req_sent = 76;
-	uint32 num_of_idr_received =77;
+	uint32 num_of_idr_received = 77;
+	uint32 num_of_idr_processed = 78;
 }
 
 message Empty

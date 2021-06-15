@@ -1110,7 +1110,7 @@ ActStatus ActionHandlers::handle_nas_pdu_parse_failure(ControlBlock& cb)
 ***************************************/
 ActStatus ActionHandlers::default_insert_subscriber_data_req_handler(ControlBlock& cb)
 {
-	log_msg(LOG_DEBUG, "Inside handle_idr ");
+	log_msg(LOG_DEBUG, "Inside default_insert_subscriber_data_req_handler");
 
 	UEContext *ue_ctxt = static_cast<UEContext*>(cb.getPermDataBlock());
 	VERIFY_UE(cb, ue_ctxt, "Invalid UE");
@@ -1169,8 +1169,8 @@ ActStatus ActionHandlers::default_insert_subscriber_data_req_handler(ControlBloc
 
 	ue_ctxt->setPdnAddr(Paa(pdn_addr));
 
-	ProcedureStats::num_of_processed_ula ++;
-	log_msg(LOG_DEBUG, "Leaving handle_idr_v ");
+	ProcedureStats::num_of_idr_processed ++;
+	log_msg(LOG_DEBUG, "Leaving default_insert_subscriber_data_req_handler");
     
     return ActStatus::PROCEED;
 }
