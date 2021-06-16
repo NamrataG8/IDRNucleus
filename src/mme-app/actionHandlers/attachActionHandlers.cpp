@@ -393,6 +393,7 @@ ActStatus ActionHandlers::auth_response_validate(SM::ControlBlock& cb)
 	const authresp_Q_msg_t *auth_resp = static_cast<const authresp_Q_msg_t*>(msgBuf->getDataPointer());	
 	
 	/*Check the state*/
+	/*
 	if(SUCCESS != auth_resp->status) {
 		log_msg(LOG_ERROR, "eNB authentication failure for UE-%d.", ue_ctxt->getContextID());
 		if(auth_resp->auts.len == 0)
@@ -432,13 +433,13 @@ ActStatus ActionHandlers::auth_response_validate(SM::ControlBlock& cb)
                     res, xres, auth_resp->res.len);
             procedure_p->setMmeErrorCause(MME_AUTH_VALIDATION_FAILURE);
             return ActStatus::ABORT;
-        }
+     }*/
 
         ProcedureStats::num_of_processed_auth_response++;
         SM::Event evt(AUTH_RESP_SUCCESS, NULL);
         controlBlk_p->qInternalEvent(evt);
 
-    }
+ //   }
 	
 	log_msg(LOG_DEBUG, "Leaving auth_response_validate ");
 	
